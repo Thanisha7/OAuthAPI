@@ -1,3 +1,4 @@
+import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -5,6 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
@@ -51,9 +55,26 @@ public class Tests {
     @Test(dependsOnMethods = "getAccessToken")
     public void request()
     {
-        String response=given().queryParam("access_token",accessToken)
-                .get("https://rahulshettyacademy.com/getCourse.php").asString();
-        System.out.println(response);
-        Assert.assertNotNull(response);
+        Response c=given().queryParam("access_token",accessToken).expect().defaultParser(Parser.JSON)
+                .when()
+                .get("https://rahulshettyacademy.com/getCourse.php").as(Response.class);
+        String[] s ={"Selenium Webdriver Java","Cypress","Protractor"};
+        ArrayList<String> a=new ArrayList<String>();
+        List<WebAutomation> b=c.getCourses().getWebAutomation();
+        for (int i=0;i<b.size();i++)
+        {
+            a.add(b.get(i).getCourseTitle());
+        }
+        List<String>l=Arrays.asList(s);
+        Assert.assertTrue(l.equals(a));
+
+        for (int i=0;i<b.size();i++)
+        {
+            if (b.get(i).getCourseTitle().equalsIgnoreCase("Selenium Webdriver Java"))
+            {
+                System.out.println(b.get(i).getPrice());
+                Assert.assertEquals(b.get(i).getPrice(),50);
+            }
+        }
     }
 }

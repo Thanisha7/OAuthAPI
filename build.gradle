@@ -20,6 +20,12 @@ dependencies {
     testAnnotationProcessor('org.projectlombok:lombok:1.18.22')
     testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.0.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.0'
+
+
+
 
 
 }
